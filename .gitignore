@@ -2,7 +2,6 @@ bootjdk/*
 codeql-cli/*
 targetjdk/*
 compile.sh
-create.sh
 database-create.log
 hs_err_*
 Makefile
