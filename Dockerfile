@@ -37,9 +37,9 @@ RUN apt-get -y update && \
     apt-get -y upgrade && \
     echo "[+]apt-get upgrade"
 
-RUN apt-get install -y build-essential gdb cmake cpio file unzip zip wget ccache 
+RUN apt-get install -y build-essential gdb cmake cpio file unzip zip wget
 
-RUN apt-get install -y --no-install-recommends libfontconfig1-dev libfreetype6-dev libcups2-dev libx11-dev libxext-dev libxrender-dev libxrandr-dev libxtst-dev libxt-dev libasound2-dev libffi-dev autoconf
+RUN apt install -y --no-install-recommends  libfontconfig1-dev libfreetype6-dev  libcups2-dev libx11-dev  libxext-dev  libxrender-dev  libxrandr-dev  libxtst-dev  libxt-dev libasound2-dev  libffi-dev  autoconf 
 
 RUN wget http://ftp.gnu.org/gnu/make/make-3.81.tar.gz && \
     tar -zxvf make-3.81.tar.gz && \
@@ -49,7 +49,12 @@ RUN wget http://ftp.gnu.org/gnu/make/make-3.81.tar.gz && \
     make install 
 
 RUN chmod 777 configure && \
-    ./configure --with-target-bits=64 --with-boot-jdk=/usr/lib/jvm/bootjdk --with-debug-level=slowdebug --enable-debug-symbols ZIP_DEBUGINFO_FILES=0 
+    bash configure --with-debug-level=fastdebug  \
+   --with-jvm-variants=server  \
+   --with-boot-jdk=/usr/lib/jvm/java-1.8.0-openjdk-amd64 \
+   --with-target-bits=64 \
+   --enable-debug-symbols  \
+   --with-native-debug-symbols=internal
 
 COPY codeql-cli/codeql-linux64.zip codeql.zip
 RUN unzip codeql.zip && \

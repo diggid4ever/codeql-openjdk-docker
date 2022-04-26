@@ -33,7 +33,10 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-docker rmi -f codeql-jdk
+if docker ps -a | grep -q "codeql-jdk" 
+then 
+  docker rm codeql-jdk
+fi
 docker build --network host --build-arg BOOT_JDK=$BOOT_JDK --build-arg TARGET_JDK=$TARGET_JDK -t codeql-jdk .
-docker run --platform=linux/x86_64 --cpus=5 --name codeql-jdk codeql-jdk
+docker run --platform=linux/x86_64 --name codeql-jdk codeql-jdk
 docker cp codeql-jdk:/usr/lib/jvm/targetjdk/result ./database/$TARGET_JDK
